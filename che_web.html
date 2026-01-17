@@ -133,7 +133,10 @@
                 cogsPct: 36,
                 rent: 43848,
                 labor: 85573,
-                franchiseFees: 11528
+                franchiseFees: 11528,
+                utilities: 6674,
+                bankPos: 2613,
+                otherOps: 2364
             },
             projections: {
                 revenue: 285000,
@@ -237,6 +240,53 @@
                         </p>
                     </header>
 
+                    <!-- Benchmarks / Health Check Table -->
+                    <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="p-6 border-b border-stone-100 bg-stone-50">
+                             <h3 class="font-bold text-stone-800 flex items-center gap-2">
+                                <span class="text-xl">🏥</span> Health Check: Benchmarks vs. Reality
+                            </h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm text-left">
+                                <thead class="bg-stone-50 text-stone-500 font-medium border-b border-stone-100">
+                                    <tr>
+                                        <th class="px-6 py-3">Indicator</th>
+                                        <th class="px-6 py-3">Current (2025)</th>
+                                        <th class="px-6 py-3">Industry Standard</th>
+                                        <th class="px-6 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-100 text-stone-700">
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">COGS (Food Cost)</td>
+                                        <td class="px-6 py-4 font-bold text-rose-600">36.0%</td>
+                                        <td class="px-6 py-4">25% – 30%</td>
+                                        <td class="px-6 py-4"><span class="bg-rose-100 text-rose-800 px-2 py-1 rounded text-xs font-bold">HIGH</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Labor (Payroll)</td>
+                                        <td class="px-6 py-4 font-bold text-amber-600">36.0%</td>
+                                        <td class="px-6 py-4">30% – 35%</td>
+                                        <td class="px-6 py-4"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">WARNING</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Prime Cost (COGS+Labor)</td>
+                                        <td class="px-6 py-4 font-bold text-rose-600">72.0%</td>
+                                        <td class="px-6 py-4">< 60%</td>
+                                        <td class="px-6 py-4"><span class="bg-rose-100 text-rose-800 px-2 py-1 rounded text-xs font-bold">CRITICAL</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Rent Ratio</td>
+                                        <td class="px-6 py-4 font-bold text-rose-600">18.5%</td>
+                                        <td class="px-6 py-4">6% – 10%</td>
+                                        <td class="px-6 py-4"><span class="bg-rose-100 text-rose-800 px-2 py-1 rounded text-xs font-bold">CRITICAL</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Chart Card: Expenses -->
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
@@ -246,8 +296,7 @@
                                 <canvas id="expenseChart"></canvas>
                             </div>
                             <div class="mt-4 p-4 bg-rose-50 rounded-lg border border-rose-100 text-sm text-rose-800">
-                                <strong>Red Flag:</strong> COGS is at 36%. Industry standard for this category is 25-30%. 
-                                This 6-10% variance is effectively "lost profit."
+                                <strong>Red Flag:</strong> Prime Cost is 72%. For every dollar earned, only $0.28 remains to pay Rent and Admin.
                             </div>
                         </div>
 
@@ -454,10 +503,22 @@
                                         <td class="px-6 py-4 text-stone-500">Includes projected increase</td>
                                     </tr>
                                     <tr>
-                                        <td class="px-6 py-4 font-medium">Labor</td>
+                                        <td class="px-6 py-4 font-medium">Labor (Total)</td>
                                         <td class="px-6 py-4">$7,500</td>
                                         <td class="px-6 py-4">$90,000</td>
-                                        <td class="px-6 py-4 text-stone-500">Manager + PT Staff</td>
+                                        <td class="px-6 py-4 text-stone-500">Wages + PD7A (Remittances)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Utilities</td>
+                                        <td class="px-6 py-4">$583</td>
+                                        <td class="px-6 py-4">$7,000</td>
+                                        <td class="px-6 py-4 text-stone-500">Gas + Hydro</td>
+                                    </tr>
+                                     <tr>
+                                        <td class="px-6 py-4 font-medium">Bank/POS Fees</td>
+                                        <td class="px-6 py-4">$250</td>
+                                        <td class="px-6 py-4">$3,000</td>
+                                        <td class="px-6 py-4 text-stone-500">Transaction costs</td>
                                     </tr>
                                     <tr>
                                         <td class="px-6 py-4 font-medium">Marketing</td>
@@ -541,6 +602,39 @@
                                     </ul>
                                 </div>
                             </div>
+
+                            <!-- Risk Management -->
+                            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 mt-8">
+                                <h3 class="text-lg font-bold text-stone-800 mb-4">Risk Management</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full text-sm">
+                                        <thead class="bg-stone-50 text-stone-500">
+                                            <tr>
+                                                <th class="px-4 py-2 text-left">Risk</th>
+                                                <th class="px-4 py-2 text-left">Prob.</th>
+                                                <th class="px-4 py-2 text-left">Mitigation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-stone-100 text-stone-700">
+                                            <tr>
+                                                <td class="px-4 py-2 font-medium">Rent Hike</td>
+                                                <td class="px-4 py-2 text-rose-600">High</td>
+                                                <td class="px-4 py-2">Lock in long-term lease options before signing.</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-2 font-medium">Competition</td>
+                                                <td class="px-4 py-2 text-rose-600">High</td>
+                                                <td class="px-4 py-2">Differentiate with "Coffee + Dessert" hybrid.</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-2 font-medium">CRA Liability</td>
+                                                <td class="px-4 py-2 text-amber-600">Med</td>
+                                                <td class="px-4 py-2">Verify PD7A clearance certificate.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Due Diligence Checklist -->
@@ -553,6 +647,12 @@
                                     <input type="checkbox" class="mt-1 w-4 h-4 accent-amber-500 rounded cursor-pointer">
                                     <div class="text-sm group-hover:text-white transition-colors">
                                         <strong>Lease Term:</strong> Verified 5+ years remaining?
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                                    <div class="text-sm group-hover:text-white transition-colors">
+                                        <strong>PD7A Check:</strong> Verified no unpaid CRA remittances?
                                     </div>
                                 </label>
                                 <label class="flex items-start gap-3 cursor-pointer group">
@@ -603,10 +703,10 @@
             state.charts['expenseChart'] = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Purchases (COGS)', 'Labor', 'Rent', 'Franchise Fees', 'Utilities/Other'],
+                    labels: ['Purchases (COGS)', 'Labor+PD7A', 'Rent', 'Franchise Fees', 'Utilities (Gas/Hydro)', 'Bank/POS', 'Other'],
                     datasets: [{
-                        data: [85437, 85573, 43848, 11528, 11000],
-                        backgroundColor: ['#F87171', '#FCD34D', '#A8A29E', '#78716C', '#E5E5E5'],
+                        data: [85437, 85573, 43848, 11528, 6674, 2613, 2364],
+                        backgroundColor: ['#F87171', '#FCD34D', '#A8A29E', '#78716C', '#60A5FA', '#818CF8', '#E5E5E5'],
                         borderWidth: 0,
                         hoverOffset: 10
                     }]
