@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Kingsway: Business Rebrand Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F5F5F4; color: #1C1917; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        
+        /* Chart Container Utilities */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #E7E5E4; }
+        ::-webkit-scrollbar-thumb { background: #A8A29E; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #78716C; }
+
+        /* Animation Utilities */
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .nav-item.active { background-color: #E7E5E4; color: #000; font-weight: 600; border-right: 3px solid #D97706; }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals & Earthy Accents (Stone, Amber, Emerald) -->
+    <!-- Application Structure Plan: Dashboard-style SPA with sidebar navigation. 
+         1. Executive Summary: High-level KPIs and deal status.
+         2. Financial Autopsy: Analysis of 2025 failure (Charts).
+         3. The Turnaround: Interactive "Levers" visualization showing profit strategy.
+         4. Projections: Forecasted Year 1 performance and Unit Economics.
+         5. Action Plan: Kanban/Checklist for 90-day execution.
+         Why: Allows investors/partners to focus on specific areas (problem vs solution) without scrolling a long doc. -->
+    <!-- Visualization & Content Choices:
+         - Metrics: Big Numbers for KPIs (Goal: Inform).
+         - 2025 Cost Breakdown: Doughnut Chart (Goal: Compare expense categories).
+         - Rev Trend: Bar Chart (Goal: Change/Compare 2024 vs 2025).
+         - Unit Economics: Stacked Bar (Goal: Compare Franchise vs Independent margin).
+         - Projections: Grouped Bar (Goal: Compare Current vs Future).
+         - Daily Orders: Gauge/Donut (Goal: Inform gap to target).
+         - Timeline: Styled List (Goal: Organize). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-stone-100 border-r border-stone-200 hidden md:flex flex-col z-20">
+        <div class="p-6 border-b border-stone-200">
+            <h1 class="text-2xl font-bold text-stone-800 tracking-tight">Project<br><span class="text-amber-600">Kingsway</span></h1>
+            <p class="text-xs text-stone-500 mt-2 uppercase tracking-widest">Rebrand Strategy</p>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li><button onclick="navigateTo('overview')" id="nav-overview" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors">Executive Summary</button></li>
+                <li><button onclick="navigateTo('financials')" id="nav-financials" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors">Financial Autopsy</button></li>
+                <li><button onclick="navigateTo('strategy')" id="nav-strategy" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors">The Turnaround</button></li>
+                <li><button onclick="navigateTo('projections')" id="nav-projections" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors">Future Projections</button></li>
+                <li><button onclick="navigateTo('action')" id="nav-action" class="nav-item w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 transition-colors">Action Plan</button></li>
+            </ul>
+        </nav>
+        <div class="p-6 border-t border-stone-200 bg-stone-50">
+            <div class="text-xs font-semibold text-stone-400 uppercase mb-2">Current Status</div>
+            <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                Due Diligence
+            </div>
+        </div>
+    </aside>
+
+    <!-- Mobile Header -->
+    <div class="md:hidden fixed top-0 left-0 right-0 h-16 bg-stone-100 border-b border-stone-200 flex items-center justify-between px-4 z-30">
+        <h1 class="text-lg font-bold text-stone-800">Project <span class="text-amber-600">Kingsway</span></h1>
+        <button onclick="toggleMobileMenu()" class="text-stone-600 focus:outline-none text-2xl">
+            &#9776; <!-- Hamburger Icon Unicode -->
+        </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-stone-900/50 z-40 hidden" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-sidebar" class="fixed inset-y-0 right-0 w-64 bg-stone-100 shadow-xl z-50 transform translate-x-full transition-transform duration-300 md:hidden">
+        <div class="p-6 border-b border-stone-200 flex justify-between items-center">
+            <span class="font-bold text-stone-700">Menu</span>
+            <button onclick="toggleMobileMenu()" class="text-stone-500 text-2xl">&times;</button>
+        </div>
+        <nav class="py-4">
+            <ul class="space-y-1">
+                <li><button onclick="mobileNavigate('overview')" class="w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 border-b border-stone-200">Executive Summary</button></li>
+                <li><button onclick="mobileNavigate('financials')" class="w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 border-b border-stone-200">Financial Autopsy</button></li>
+                <li><button onclick="mobileNavigate('strategy')" class="w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 border-b border-stone-200">The Turnaround</button></li>
+                <li><button onclick="mobileNavigate('projections')" class="w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 border-b border-stone-200">Future Projections</button></li>
+                <li><button onclick="mobileNavigate('action')" class="w-full text-left px-6 py-3 text-stone-600 hover:bg-stone-50 border-b border-stone-200">Action Plan</button></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto bg-stone-50 pt-16 md:pt-0">
+        <div id="content-area" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <!-- Content injected via JS -->
+        </div>
+    </main>
+
+    <script>
+        // --- State & Data ---
+        const state = {
+            currentView: 'overview',
+            charts: {} // Store chart instances to destroy them before re-rendering
+        };
+
+        const data = {
+            metrics: {
+                askPrice: "$100,000",
+                targetPrice: "$65k - $75k",
+                valuation: "$40k - $60k",
+                y1Profit: "$51,200",
+                roi: "~3 Years"
+            },
+            financials2025: {
+                revenue: 237505,
+                netIncome: -532,
+                cogsPct: 36,
+                rent: 43848,
+                labor: 85573,
+                franchiseFees: 11528
+            },
+            projections: {
+                revenue: 285000,
+                netIncome: 51200,
+                cogsPct: 28
+            }
+        };
+
+        // --- View Renderers ---
+
+        function renderOverview() {
+            return `
+                <div class="fade-in space-y-8">
+                    <header class="mb-8">
+                        <h2 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">Executive Summary</h2>
+                        <p class="text-lg text-stone-600 max-w-3xl leading-relaxed">
+                            Project Kingsway is a strategic acquisition of a distressed franchise asset in Burnaby. 
+                            The objective is to acquire the location at asset value, strip the franchise license to eliminate royalties, 
+                            and relaunch as an independent coffee & dessert house to achieve profitability through cost restructuring.
+                        </p>
+                    </header>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                            <div class="text-sm font-semibold text-stone-400 uppercase tracking-wider mb-2">Target Acquisition</div>
+                            <div class="text-3xl font-bold text-stone-800">${data.metrics.targetPrice}</div>
+                            <div class="mt-2 text-sm text-stone-500">Asking: <span class="line-through">${data.metrics.askPrice}</span></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 border-l-4 border-l-emerald-500">
+                            <div class="text-sm font-semibold text-stone-400 uppercase tracking-wider mb-2">Year 1 Profit Goal</div>
+                            <div class="text-3xl font-bold text-emerald-700">${data.metrics.y1Profit}</div>
+                            <div class="mt-2 text-sm text-stone-500">vs 2025 Loss: <span class="text-rose-600">($532)</span></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                            <div class="text-sm font-semibold text-stone-400 uppercase tracking-wider mb-2">Project ROI</div>
+                            <div class="text-3xl font-bold text-stone-800">${data.metrics.roi}</div>
+                            <div class="mt-2 text-sm text-stone-500">Asset Sale Strategy</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="p-6 border-b border-stone-100">
+                            <h3 class="text-xl font-bold text-stone-800">The Opportunity at a Glance</h3>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <p class="text-stone-600 mb-4">
+                                    The current business is failing due to a "perfect storm" of high costs and declining sales. 
+                                    However, the location is solid. The value lies in the lease and the build-out.
+                                </p>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <span class="text-emerald-500 mr-2">&#10003;</span>
+                                        <span class="text-stone-700"><strong>High Traffic:</strong> Kingsway corridor location.</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-emerald-500 mr-2">&#10003;</span>
+                                        <span class="text-stone-700"><strong>Asset Value:</strong> Leverage existing equipment (fridges, HVAC).</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-rose-500 mr-2">&#9888;</span>
+                                        <span class="text-stone-700"><strong>Urgency:</strong> Current lease & sales decline require immediate intervention.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="bg-stone-50 p-6 rounded-lg border border-stone-100">
+                                <h4 class="font-bold text-stone-700 mb-4">Key Deal Killers (Due Diligence)</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-stone-600">Lease Term < 5 Years</span>
+                                        <span class="text-amber-600 font-medium">Critical Check</span>
+                                    </div>
+                                    <div class="w-full bg-stone-200 h-1.5 rounded-full"><div class="bg-amber-500 h-1.5 rounded-full" style="width: 100%"></div></div>
+                                    
+                                    <div class="flex items-center justify-between text-sm mt-3">
+                                        <span class="text-stone-600">Demolition Clause</span>
+                                        <span class="text-amber-600 font-medium">Critical Check</span>
+                                    </div>
+                                    <div class="w-full bg-stone-200 h-1.5 rounded-full"><div class="bg-amber-500 h-1.5 rounded-full" style="width: 100%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFinancials() {
+            setTimeout(() => {
+                initExpenseChart();
+                initRevenueTrendChart();
+            }, 100);
+
+            return `
+                <div class="fade-in space-y-8">
+                    <header>
+                        <h2 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">Financial Autopsy (2025)</h2>
+                        <p class="text-lg text-stone-600 max-w-3xl">
+                            Why is the business losing money? A deep dive into the 2025 Profit & Loss statement reveals 
+                            inefficient operations and a franchise model that drains margins.
+                        </p>
+                    </header>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Chart Card: Expenses -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                            <h3 class="text-lg font-bold text-stone-800 mb-2">Where the Money Goes</h3>
+                            <p class="text-sm text-stone-500 mb-4">Breakdown of every dollar earned in 2025.</p>
+                            <div class="chart-container">
+                                <canvas id="expenseChart"></canvas>
+                            </div>
+                            <div class="mt-4 p-4 bg-rose-50 rounded-lg border border-rose-100 text-sm text-rose-800">
+                                <strong>Red Flag:</strong> COGS is at 36%. Industry standard for this category is 25-30%. 
+                                This 6-10% variance is effectively "lost profit."
+                            </div>
+                        </div>
+
+                        <!-- Chart Card: Revenue Trend -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                            <h3 class="text-lg font-bold text-stone-800 mb-2">The "Falling Knife"</h3>
+                            <p class="text-sm text-stone-500 mb-4">Year-over-Year revenue comparison.</p>
+                            <div class="chart-container">
+                                <canvas id="revTrendChart"></canvas>
+                            </div>
+                            <div class="mt-4 text-sm text-stone-600">
+                                Sales dropped <strong>14%</strong> YoY. This decline, combined with fixed rent costs, 
+                                pushed the net margin to 0%.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="p-4 bg-white border border-stone-200 rounded-lg text-center">
+                            <div class="text-xs text-stone-500 uppercase">Avg Ticket</div>
+                            <div class="text-xl font-bold text-stone-800">$9.50</div>
+                        </div>
+                        <div class="p-4 bg-white border border-stone-200 rounded-lg text-center">
+                            <div class="text-xs text-stone-500 uppercase">Daily Orders</div>
+                            <div class="text-xl font-bold text-stone-800">69</div>
+                            <div class="text-xs text-stone-400">Break-even level</div>
+                        </div>
+                        <div class="p-4 bg-white border border-stone-200 rounded-lg text-center">
+                            <div class="text-xs text-stone-500 uppercase">Franchise Fees</div>
+                            <div class="text-xl font-bold text-rose-600">$11,528</div>
+                        </div>
+                        <div class="p-4 bg-white border border-stone-200 rounded-lg text-center">
+                            <div class="text-xs text-stone-500 uppercase">Net Loss</div>
+                            <div class="text-xl font-bold text-rose-600">($532)</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderStrategy() {
+            setTimeout(() => {
+                initUnitEconomicsChart();
+            }, 100);
+
+            return `
+                <div class="fade-in space-y-8">
+                    <header>
+                        <h2 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">The Turnaround Strategy</h2>
+                        <p class="text-lg text-stone-600 max-w-3xl">
+                            How do we fix it? We don't need a miracle; we need efficiency. 
+                            We will pull <strong>3 Strategic Levers</strong> to unlock $50,000+ in annual profit.
+                        </p>
+                    </header>
+
+                    <!-- The 3 Levers -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Lever 1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:border-amber-400 transition-colors group">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-stone-100 text-stone-600 py-1 px-3 rounded-full text-xs font-bold uppercase">Lever 1</span>
+                                <span class="text-2xl">✂️</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-stone-800 mb-2">Slash COGS</h3>
+                            <div class="text-sm text-stone-500 mb-4">Current: 36% &rarr; <span class="text-emerald-600 font-bold">Target: 28%</span></div>
+                            <p class="text-sm text-stone-600 mb-4">
+                                Renegotiate local suppliers (no franchise markups) and simplify the menu to reduce waste.
+                            </p>
+                            <div class="pt-4 border-t border-stone-100 font-bold text-emerald-700">
+                                +$19,000 Profit
+                            </div>
+                        </div>
+
+                        <!-- Lever 2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:border-amber-400 transition-colors group">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-stone-100 text-stone-600 py-1 px-3 rounded-full text-xs font-bold uppercase">Lever 2</span>
+                                <span class="text-2xl">🏷️</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-stone-800 mb-2">Price Optimization</h3>
+                            <div class="text-sm text-stone-500 mb-4">Ticket: $9.50 &rarr; <span class="text-emerald-600 font-bold">Target: $10.00</span></div>
+                            <p class="text-sm text-stone-600 mb-4">
+                                A modest $0.50 increase per order flows 100% to the bottom line.
+                            </p>
+                            <div class="pt-4 border-t border-stone-100 font-bold text-emerald-700">
+                                +$12,500 Profit
+                            </div>
+                        </div>
+
+                        <!-- Lever 3 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:border-amber-400 transition-colors group">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-stone-100 text-stone-600 py-1 px-3 rounded-full text-xs font-bold uppercase">Lever 3</span>
+                                <span class="text-2xl">📣</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-stone-800 mb-2">Volume Recovery</h3>
+                            <div class="text-sm text-stone-500 mb-4">Goal: Recover 2024 Levels</div>
+                            <p class="text-sm text-stone-600 mb-4">
+                                Reinvest saved franchise fees into local marketing ($500/mo) to drive traffic.
+                            </p>
+                            <div class="pt-4 border-t border-stone-100 font-bold text-emerald-700">
+                                +$20,000 Profit
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unit Economics Deep Dive -->
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-stone-800">Unit Economics: Per Order Analysis</h3>
+                                <p class="text-stone-500 text-sm mt-1">Why independent ownership wins on every cup sold.</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 chart-container">
+                                <canvas id="unitChart"></canvas>
+                            </div>
+                            <div class="space-y-4 flex flex-col justify-center">
+                                <div class="bg-stone-50 p-4 rounded-lg">
+                                    <span class="block text-xs font-bold text-stone-500 uppercase">Franchise Margin</span>
+                                    <span class="text-2xl font-bold text-stone-400">$5.60</span>
+                                </div>
+                                <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+                                    <span class="block text-xs font-bold text-emerald-600 uppercase">Independent Margin</span>
+                                    <span class="text-2xl font-bold text-emerald-700">$7.20</span>
+                                    <span class="text-xs text-emerald-600 block mt-1">+28% Improvement</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProjections() {
+            setTimeout(() => {
+                initProjectionChart();
+                initGapChart();
+            }, 100);
+
+            return `
+                <div class="fade-in space-y-8">
+                    <header>
+                        <h2 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">Year 1 Projections</h2>
+                        <p class="text-lg text-stone-600 max-w-3xl">
+                            Assuming a conservative recovery to 2024 sales volume ($285k), the improved cost structure 
+                            delivers a sustainable 18% Net Margin.
+                        </p>
+                    </header>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- P&L Comparison -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                            <h3 class="text-lg font-bold text-stone-800 mb-2">P&L Comparison</h3>
+                            <p class="text-sm text-stone-500 mb-6">2025 Actuals vs. Year 1 Forecast</p>
+                            <div class="chart-container">
+                                <canvas id="projChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Break Even Analysis -->
+                        <div class="space-y-6">
+                            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col h-full">
+                                <div class="mb-4">
+                                    <h3 class="text-lg font-bold text-stone-800">The "Gap" to Profit</h3>
+                                    <p class="text-sm text-stone-500">Daily orders needed to hit $50k annual profit.</p>
+                                </div>
+                                <div class="chart-container flex-grow relative flex items-center justify-center">
+                                    <canvas id="gapChart"></canvas>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-10">
+                                        <span class="text-4xl font-bold text-stone-800">13</span>
+                                        <span class="text-xs text-stone-500 font-bold uppercase">More Orders/Day</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 text-center text-sm text-stone-600">
+                                    Current: <strong>69</strong> &rarr; Target: <strong>82</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Operations Table -->
+                    <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                         <div class="px-6 py-4 border-b border-stone-100 bg-stone-50">
+                            <h3 class="font-bold text-stone-700">Projected Operational Expenses (Year 1)</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm text-left">
+                                <thead class="bg-stone-50 text-stone-500 font-medium">
+                                    <tr>
+                                        <th class="px-6 py-3">Category</th>
+                                        <th class="px-6 py-3">Monthly Est.</th>
+                                        <th class="px-6 py-3">Annual Est.</th>
+                                        <th class="px-6 py-3">Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-100 text-stone-700">
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Rent</td>
+                                        <td class="px-6 py-4">$3,750</td>
+                                        <td class="px-6 py-4">$45,000</td>
+                                        <td class="px-6 py-4 text-stone-500">Includes projected increase</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Labor</td>
+                                        <td class="px-6 py-4">$7,500</td>
+                                        <td class="px-6 py-4">$90,000</td>
+                                        <td class="px-6 py-4 text-stone-500">Manager + PT Staff</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium">Marketing</td>
+                                        <td class="px-6 py-4">$500</td>
+                                        <td class="px-6 py-4">$6,000</td>
+                                        <td class="px-6 py-4 text-stone-500 text-emerald-600 font-medium">New Investment</td>
+                                    </tr>
+                                    <tr class="bg-emerald-50/50">
+                                        <td class="px-6 py-4 font-bold">Projected Net Profit</td>
+                                        <td class="px-6 py-4 font-bold text-emerald-700">$4,266</td>
+                                        <td class="px-6 py-4 font-bold text-emerald-700">$51,200</td>
+                                        <td class="px-6 py-4 text-emerald-700">~18% Margin</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAction() {
+            return `
+                <div class="fade-in space-y-8">
+                    <header>
+                        <h2 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">90-Day Action Plan</h2>
+                        <p class="text-lg text-stone-600 max-w-3xl">
+                            Execution roadmap from acquisition to relaunch.
+                        </p>
+                    </header>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Timeline -->
+                        <div class="lg:col-span-2 space-y-8">
+                            <!-- Phase 1 -->
+                            <div class="flex gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold">1</div>
+                                    <div class="w-0.5 bg-stone-200 flex-1 my-2"></div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex-1 pb-8">
+                                    <h3 class="text-lg font-bold text-stone-800 mb-1">Days 1-30: Acquisition</h3>
+                                    <p class="text-sm text-stone-500 mb-4">Negotiation & Legal Structure</p>
+                                    <ul class="space-y-2 text-sm text-stone-700">
+                                        <li>&#8226; Negotiate purchase price ($65k - $75k target).</li>
+                                        <li>&#8226; Secure Lease Transfer (5+ years term).</li>
+                                        <li>&#8226; Confirm franchise exit terms & non-compete.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                             <!-- Phase 2 -->
+                             <div class="flex gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold">2</div>
+                                    <div class="w-0.5 bg-stone-200 flex-1 my-2"></div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex-1 pb-8">
+                                    <h3 class="text-lg font-bold text-stone-800 mb-1">Days 31-60: The Setup</h3>
+                                    <p class="text-sm text-stone-500 mb-4">Product & Brand Development</p>
+                                    <ul class="space-y-2 text-sm text-stone-700">
+                                        <li>&#8226; Design simplified, high-margin menu.</li>
+                                        <li>&#8226; Create Independent Brand Identity (Logo/Signage).</li>
+                                        <li>&#8226; Secure local suppliers (Coffee, Dairy, Produce).</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                             <!-- Phase 3 -->
+                             <div class="flex gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">3</div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex-1 pb-8">
+                                    <h3 class="text-lg font-bold text-stone-800 mb-1">Days 60-90: Launch</h3>
+                                    <p class="text-sm text-stone-500 mb-4">Execution & Marketing</p>
+                                    <ul class="space-y-2 text-sm text-stone-700">
+                                        <li>&#8226; Take possession & cosmetic refresh (3-5 days).</li>
+                                        <li>&#8226; Soft Launch as Independent Brand.</li>
+                                        <li>&#8226; Begin $500/mo Marketing Blitz (Local Ads).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Due Diligence Checklist -->
+                        <div class="bg-stone-800 text-stone-200 p-6 rounded-xl h-fit">
+                            <h3 class="text-lg font-bold text-white mb-4">Critical Due Diligence</h3>
+                            <p class="text-xs text-stone-400 mb-6">Must pass all checks before signing.</p>
+                            
+                            <div class="space-y-4">
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                                    <div class="text-sm group-hover:text-white transition-colors">
+                                        <strong>Lease Term:</strong> Verified 5+ years remaining?
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                                    <div class="text-sm group-hover:text-white transition-colors">
+                                        <strong>Demolition Clause:</strong> Confirmed NO near-term demo clause?
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                                    <div class="text-sm group-hover:text-white transition-colors">
+                                        <strong>Non-Compete:</strong> Can we sell coffee/tea immediately?
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                                    <div class="text-sm group-hover:text-white transition-colors">
+                                        <strong>Equipment:</strong> Fridge/HVAC audit passed?
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 accent-amber-500 rounded cursor-pointer">
+                                    <div class="text-sm group-hover:text-white transition-colors">
+                                        <strong>Manager:</strong> Agreed to stay post-transition?
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Chart Initialization Functions ---
+
+        function destroyChart(id) {
+            if (state.charts[id]) {
+                state.charts[id].destroy();
+                delete state.charts[id];
+            }
+        }
+
+        function initExpenseChart() {
+            destroyChart('expenseChart');
+            const ctx = document.getElementById('expenseChart');
+            if (!ctx) return;
+            
+            state.charts['expenseChart'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Purchases (COGS)', 'Labor', 'Rent', 'Franchise Fees', 'Utilities/Other'],
+                    datasets: [{
+                        data: [85437, 85573, 43848, 11528, 11000],
+                        backgroundColor: ['#F87171', '#FCD34D', '#A8A29E', '#78716C', '#E5E5E5'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: {family: 'Inter'} } },
+                        tooltip: { 
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    let value = context.parsed;
+                                    let total = context.chart._metasets[context.datasetIndex].total;
+                                    let percentage = ((value / total) * 100).toFixed(1) + "%";
+                                    return label + ': ' + percentage;
+                                }
+                            }
+                        }
+                    },
+                    layout: { padding: 20 }
+                }
+            });
+        }
+
+        function initRevenueTrendChart() {
+            destroyChart('revTrendChart');
+            const ctx = document.getElementById('revTrendChart');
+            if (!ctx) return;
+
+            state.charts['revTrendChart'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2024 (Previous)', '2025 (Current)'],
+                    datasets: [{
+                        label: 'Total Revenue',
+                        data: [276046, 237505],
+                        backgroundColor: ['#D6D3D1', '#F87171'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { display: false }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function initUnitEconomicsChart() {
+            destroyChart('unitChart');
+            const ctx = document.getElementById('unitChart');
+            if (!ctx) return;
+
+            // Wrap labels helper
+            const wrap = (str) => str.split(' ');
+
+            state.charts['unitChart'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue', 'Food Cost', 'Franchise Fee', 'Net Margin'],
+                    datasets: [
+                        {
+                            label: 'Current (Franchise)',
+                            data: [9.50, 3.42, 0.48, 5.60],
+                            backgroundColor: '#A8A29E',
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        },
+                        {
+                            label: 'New (Independent)',
+                            data: [10.00, 2.80, 0, 7.20],
+                            backgroundColor: '#10B981', // Emerald
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                title: (tooltipItems) => tooltipItems[0].label
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: {display: true, text: 'Amount ($)'} 
+                        }
+                    }
+                }
+            });
+        }
+
+        function initProjectionChart() {
+            destroyChart('projChart');
+            const ctx = document.getElementById('projChart');
+            if (!ctx) return;
+
+            state.charts['projChart'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Revenue', 'Gross Profit', 'Net Profit'],
+                    datasets: [
+                        {
+                            label: '2025 Actuals',
+                            data: [237505, 152068, -532],
+                            backgroundColor: '#F87171',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Year 1 Forecast',
+                            data: [285000, 205200, 51200],
+                            backgroundColor: '#10B981',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { callback: (val) => '$' + val/1000 + 'k' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initGapChart() {
+            destroyChart('gapChart');
+            const ctx = document.getElementById('gapChart');
+            if (!ctx) return;
+
+            // Goal 82. Current 69. Gap 13.
+            state.charts['gapChart'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Current Orders', 'Gap to Profit', 'Growth Capacity'],
+                    datasets: [{
+                        data: [69, 13, 18], // 18 is arbitrary capacity buffer
+                        backgroundColor: ['#D6D3D1', '#F59E0B', '#F5F5F4'],
+                        borderWidth: 0,
+                        circumference: 260,
+                        rotation: 230
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '80%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // --- Navigation Logic ---
+
+        function navigateTo(viewId) {
+            // Update State
+            state.currentView = viewId;
+
+            // Update UI Sidebar
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'bg-stone-200', 'font-semibold'));
+            const activeNav = document.getElementById(`nav-${viewId}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            // Render Content
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = ''; // Clear current
+
+            switch(viewId) {
+                case 'overview': contentArea.innerHTML = renderOverview(); break;
+                case 'financials': contentArea.innerHTML = renderFinancials(); break;
+                case 'strategy': contentArea.innerHTML = renderStrategy(); break;
+                case 'projections': contentArea.innerHTML = renderProjections(); break;
+                case 'action': contentArea.innerHTML = renderAction(); break;
+                default: contentArea.innerHTML = renderOverview();
+            }
+
+            // Scroll top
+            document.querySelector('main').scrollTop = 0;
+            
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-sidebar');
+            if (!mobileMenu.classList.contains('translate-x-full')) {
+                toggleMobileMenu();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('mobile-menu');
+            
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function mobileNavigate(viewId) {
+            navigateTo(viewId);
+        }
+
+        // --- Init ---
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateTo('overview');
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Kingsway: Turnaround Strategy Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 600px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 300px; 
+            max-height: 400px; 
+        } 
+        @media (min-width: 768px) { 
+            .chart-container { height: 350px; } 
+        }
+        /* Custom Scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+    <!-- 
+        Palette Used: "Dynamic Turnaround" (Based on 'Brilliant Blues' & 'Energetic Orange')
+        Primary Blue: #2563EB (Tailwind blue-600)
+        Dark Blue: #1E3A8A (Tailwind blue-900)
+        Accent Orange: #F97316 (Tailwind orange-500)
+        Success Green: #10B981 (Tailwind emerald-500)
+        Danger Red: #EF4444 (Tailwind red-500)
+        Bg: #F8FAFC (Tailwind slate-50)
+    -->
+    <!-- 
+        Plan Narrative & Structure:
+        1. Introduction/Hook: "Project Kingsway" overview - turning a distressed asset into a profitable independent brand.
+        2. The Problem (Data Overview): Visualizing the 2025 decline (Rev down, COGS up, Net Loss).
+        3. The Strategy (The Fix): Visualizing the "3 Levers" (COGS, Price, Volume) and the transition to Independent model.
+        4. Financial Projections (Future Outlook): Comparing Current vs. Year 1 P&L, highlighting the $50k+ profit potential.
+        5. Execution (Timeline): 90-day action plan.
+        6. Conclusion: Final call to action/summary.
+    -->
+    <!--
+        Chart Selection Justifications (NO SVG):
+        1. 2025 Revenue vs Costs (Stacked Bar): Shows the tight squeeze and lack of profit. Goal: Compare.
+        2. COGS Comparison (Bar Chart): Highlights the efficiency gain from 36% to 28%. Goal: Compare.
+        3. Unit Economics (Grouped Bar): Shows margin improvement per cup. Goal: Compare.
+        4. Daily Orders Target (Doughnut/Gauge): Visualizes the gap between 69 (current) and 82 (goal). Goal: Inform.
+        5. Year 1 Projections (Bar/Line combo): Revenue vs Net Profit growth. Goal: Change/Forecast.
+    -->
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header Section -->
+    <header class="bg-blue-900 text-white py-12 px-4 shadow-lg">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight">PROJECT KINGSWAY</h1>
+            <p class="text-xl md:text-2xl text-blue-200 font-light max-w-3xl mx-auto">
+                From Distressed Franchise to Profitable Independent Brand
+            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg border border-white/20">
+                    <span class="block text-sm text-blue-200 uppercase tracking-wider">Acquisition Target</span>
+                    <span class="block text-2xl font-bold">$60k - $75k</span>
+                </div>
+                <div class="bg-orange-500 px-6 py-3 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+                    <span class="block text-sm text-white/90 uppercase tracking-wider">Year 1 Profit Goal</span>
+                    <span class="block text-2xl font-bold">$51,200</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+
+        <!-- Section 1: The Problem (2025 Status) -->
+        <section>
+            <div class="flex items-center mb-6">
+                <div class="w-2 h-10 bg-red-500 mr-4 rounded-full"></div>
+                <h2 class="text-3xl font-bold text-slate-800">The Problem: 2025 Financials</h2>
+            </div>
+            <p class="text-lg text-slate-600 mb-8 leading-relaxed max-w-4xl">
+                The current business is "buying a job." With a <strong>14% decline in revenue</strong> year-over-year and rising food costs, the operation posted a net loss in 2025. The franchise model is draining margins through royalties and restricted supply chains.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1: Key Metrics -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-red-500">
+                    <h3 class="text-lg font-semibold text-slate-500 uppercase mb-4">2025 Performance</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="text-4xl font-black text-slate-800">$237,505</div>
+                            <div class="text-sm text-red-500 font-medium">▼ 14% vs 2024 Revenue</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-black text-red-500">($532)</div>
+                            <div class="text-sm text-slate-400 font-medium">Net Loss (Break-Even)</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-black text-orange-500">36%</div>
+                            <div class="text-sm text-slate-400 font-medium">COGS (Industry Std: 25-30%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Cost Breakdown Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-md md:col-span-2">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-2">Where Did the Money Go? (2025 Expenses)</h3>
+                    <p class="text-sm text-slate-500 mb-4">Cost of Goods Sold (COGS) and Labor consumed 72% of every dollar earned.</p>
+                    <div class="chart-container">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Turnaround Strategy -->
+        <section class="bg-blue-50 -mx-4 px-4 py-12 md:rounded-3xl">
+            <div class="flex items-center mb-6 max-w-6xl mx-auto">
+                <div class="w-2 h-10 bg-blue-600 mr-4 rounded-full"></div>
+                <h2 class="text-3xl font-bold text-slate-800">The Strategy: 3 Levers to Profit</h2>
+            </div>
+            <p class="text-lg text-slate-600 mb-10 leading-relaxed max-w-4xl mx-auto">
+                We will transition from a failing franchise to an efficient independent brand. By stripping away franchise fees and gaining control over our supply chain, we unlock three critical levers for profitability.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+                <!-- Lever 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-blue-100 text-blue-600 font-bold px-3 py-1 rounded-bl-lg text-xs">LEVER 1</div>
+                    <div class="text-blue-600 mb-4 text-5xl">✂️</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Slash COGS</h3>
+                    <p class="text-slate-600 text-sm mb-4">Reduce Food Cost from 36% to 28% by negotiating local suppliers and simplifying the menu.</p>
+                    <div class="text-2xl font-bold text-emerald-600">+$19,000</div>
+                    <div class="text-xs text-slate-400">Est. Annual Profit Impact</div>
+                </div>
+
+                <!-- Lever 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-blue-100 text-blue-600 font-bold px-3 py-1 rounded-bl-lg text-xs">LEVER 2</div>
+                    <div class="text-blue-600 mb-4 text-5xl">🏷️</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Price Optimization</h3>
+                    <p class="text-slate-600 text-sm mb-4">Increase Average Ticket from $9.50 to $10.00 via menu engineering and premium add-ons.</p>
+                    <div class="text-2xl font-bold text-emerald-600">+$12,500</div>
+                    <div class="text-xs text-slate-400">Est. Annual Profit Impact</div>
+                </div>
+
+                <!-- Lever 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-blue-100 text-blue-600 font-bold px-3 py-1 rounded-bl-lg text-xs">LEVER 3</div>
+                    <div class="text-blue-600 mb-4 text-5xl">📢</div>
+                    <div class="flex items-center gap-2">
+                         <h3 class="text-xl font-bold text-slate-800 mb-2">Volume Recovery</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4">Reinvest saved franchise fees into local marketing to recover 2024 volume levels.</p>
+                    <div class="text-2xl font-bold text-emerald-600">+$20,000</div>
+                    <div class="text-xs text-slate-400">Est. Annual Profit Impact</div>
+                </div>
+            </div>
+
+            <!-- Unit Economics Chart -->
+            <div class="bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Unit Economics: The Power of Rebranding</h3>
+                <p class="text-sm text-slate-500 mb-6">Comparing the profit margin per order between the current Franchise model and the proposed Independent model.</p>
+                <div class="chart-container">
+                    <canvas id="unitEconomicsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Financial Projections -->
+        <section>
+            <div class="flex items-center mb-6">
+                <div class="w-2 h-10 bg-emerald-500 mr-4 rounded-full"></div>
+                <h2 class="text-3xl font-bold text-slate-800">Year 1 Forecast</h2>
+            </div>
+            <p class="text-lg text-slate-600 mb-8 max-w-4xl">
+                By executing the asset conversion strategy, we project a swing from a <strong>$532 loss</strong> to a <strong>$51,200 profit</strong> in the first year of independent operations, assuming a conservative recovery to 2024 sales volume.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Comparison Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-2">P&L Comparison (Year 1)</h3>
+                    <p class="text-sm text-slate-500 mb-4">A direct comparison of 2025 Actuals vs. Year 1 Projections.</p>
+                    <div class="chart-container">
+                        <canvas id="projectionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Daily Target Gauge -->
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-700 mb-2">The "Magic Number"</h3>
+                        <p class="text-sm text-slate-500 mb-4">Daily order target to achieve $50k annual profit.</p>
+                    </div>
+                    
+                    <div class="chart-container relative flex items-center justify-center">
+                        <canvas id="gaugeChart"></canvas>
+                        <!-- Center Text Overlay for Donut -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-12">
+                            <span class="text-4xl font-black text-slate-800">82</span>
+                            <span class="text-xs text-slate-400 uppercase font-bold">Orders / Day</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <p class="text-sm text-slate-600">Current Average: <span class="font-bold text-red-500">69</span> <span class="text-slate-400">(-13 gap)</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Execution Timeline -->
+        <section>
+             <div class="flex items-center mb-10">
+                <div class="w-2 h-10 bg-orange-500 mr-4 rounded-full"></div>
+                <h2 class="text-3xl font-bold text-slate-800">90-Day Execution Plan</h2>
+            </div>
+            
+            <div class="relative border-l-4 border-blue-200 ml-4 md:ml-8 space-y-12">
+                <!-- Item 1 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-3.5 bg-blue-600 h-6 w-6 rounded-full border-4 border-white shadow"></div>
+                    <h3 class="text-xl font-bold text-slate-800">Days 1-30: Acquisition & Legal</h3>
+                    <div class="mt-2 bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li>Negotiate purchase price (Target: $65k-$75k).</li>
+                            <li><strong>Due Diligence:</strong> Review Lease term (5yr+) & Demolition Clause.</li>
+                            <li>Confirm Franchise Agreement termination terms.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-3.5 bg-orange-500 h-6 w-6 rounded-full border-4 border-white shadow"></div>
+                    <h3 class="text-xl font-bold text-slate-800">Days 31-60: The Setup</h3>
+                    <div class="mt-2 bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li>Design simplified, high-margin menu.</li>
+                            <li>Create new Independent Brand Identity (Logo, Signage).</li>
+                            <li>Secure new local suppliers for coffee and ingredients.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <!-- Item 3 -->
+                 <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-3.5 bg-emerald-500 h-6 w-6 rounded-full border-4 border-white shadow"></div>
+                    <h3 class="text-xl font-bold text-slate-800">Days 60-90: Launch</h3>
+                    <div class="mt-2 bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li>Take possession & Cosmetic Refresh (3-5 days closed).</li>
+                            <li>Soft Launch as Independent Brand.</li>
+                            <li>Begin $500/mo Marketing Blitz (Local Ads).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <footer class="mt-16 bg-slate-800 text-white rounded-t-3xl p-12 text-center">
+            <h2 class="text-2xl font-bold mb-4">Investment Summary</h2>
+            <p class="text-slate-300 max-w-2xl mx-auto mb-8">
+                This project represents a classic "buy low, fix high" opportunity. By acquiring a distressed asset below replacement cost and applying operational discipline, we can generate a 3-year payback period and sustainable cash flow.
+            </p>
+            <div class="inline-block bg-emerald-600 px-8 py-3 rounded-full font-bold shadow-lg">
+                Projected ROI: ~3 Years
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Helper Function: Wrap Labels (16 chars) ---
+        function wrapLabel(str, maxLen = 16) {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                const word = words[i];
+                if ((currentLine + " " + word).length <= maxLen) {
+                    currentLine += " " + word;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = word;
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- Common Tooltip Config (REQUIRED) ---
+        const commonTooltipOptions = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- Chart 1: 2025 Expense Breakdown (Doughnut) ---
+        const ctxExpense = document.getElementById('expenseChart').getContext('2d');
+        new Chart(ctxExpense, {
+            type: 'doughnut',
+            data: {
+                labels: ['Purchases (COGS)', 'Labor / Payroll', 'Rent', 'Franchise Fees', 'Utilities/Other'],
+                datasets: [{
+                    data: [85437, 85573, 43848, 11528, 11000], // Approx numbers from prompt
+                    backgroundColor: ['#EF4444', '#F97316', '#3B82F6', '#6366F1', '#94A3B8'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: commonTooltipOptions
+                }
+            }
+        });
+
+        // --- Chart 2: Unit Economics (Grouped Bar) ---
+        const ctxUnit = document.getElementById('unitEconomicsChart').getContext('2d');
+        const labelsUnit = ['Revenue per Order', 'Food Cost', 'Franchise Royalty', 'Contribution Margin'];
+        const processedLabelsUnit = labelsUnit.map(l => wrapLabel(l));
+
+        new Chart(ctxUnit, {
+            type: 'bar',
+            data: {
+                labels: processedLabelsUnit,
+                datasets: [
+                    {
+                        label: 'Current (Franchise)',
+                        data: [9.50, 3.42, 0.48, 5.60],
+                        backgroundColor: '#94A3B8',
+                        borderColor: '#64748B',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'New (Independent)',
+                        data: [10.00, 2.80, 0, 7.20],
+                        backgroundColor: '#2563EB',
+                        borderColor: '#1E40AF',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: commonTooltipOptions,
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Amount ($)' }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 3: Projections Comparison (Stacked/Grouped) ---
+        const ctxProj = document.getElementById('projectionChart').getContext('2d');
+        new Chart(ctxProj, {
+            type: 'bar',
+            data: {
+                labels: ['Total Revenue', 'Gross Profit', 'Net Profit'],
+                datasets: [
+                    {
+                        label: '2025 Actuals',
+                        data: [237505, 152068, -532],
+                        backgroundColor: '#EF4444',
+                    },
+                    {
+                        label: 'Year 1 Forecast',
+                        data: [285000, 205200, 51200],
+                        backgroundColor: '#10B981',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: commonTooltipOptions
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) { return '$' + value / 1000 + 'k'; }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 4: Gauge Chart (Donut Trick) ---
+        const ctxGauge = document.getElementById('gaugeChart').getContext('2d');
+        // Goal is 82. Current is 69. Max reasonable scale is 100.
+        // We will visualize the "progress" towards 82.
+        // Segment 1: Current (69) - Red
+        // Segment 2: Gap to Goal (82-69 = 13) - Yellow/Orange
+        // Segment 3: Remainder to 100 (18) - Grey
+        new Chart(ctxGauge, {
+            type: 'doughnut',
+            data: {
+                labels: ['Current Orders', 'Gap to Profitability', 'Growth Potential'],
+                datasets: [{
+                    data: [69, 13, 18],
+                    backgroundColor: ['#EF4444', '#F97316', '#E2E8F0'],
+                    borderWidth: 0,
+                    circumference: 270, // Semi-circle style
+                    rotation: 225
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%', // Thinner ring
+                plugins: {
+                    tooltip: commonTooltipOptions,
+                    legend: { display: false }
+                }
+            }
+        });
+
+    </script>
+    <!-- Explicit confirmation: NO SVG graphics were used. NO Mermaid JS was used. -->
+</body>
+</html>
