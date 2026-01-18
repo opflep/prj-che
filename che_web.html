@@ -324,6 +324,58 @@
                         </p>
                     </header>
 
+                    <!-- Concept Pivot Section (NEW) -->
+                    <div class="bg-stone-800 text-white p-8 rounded-xl shadow-lg relative overflow-hidden">
+                        <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div>
+                                <div class="text-amber-500 font-bold uppercase tracking-widest text-xs mb-2">The Concept Pivot</div>
+                                <h3 class="text-2xl font-bold mb-4">The High-Margin Hybrid</h3>
+                                <p class="text-stone-300 mb-6">
+                                    Current model relies solely on evening dessert traffic. We maximize rent utilization by capturing the morning commuter crowd.
+                                </p>
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-4">
+                                        <div class="bg-stone-700 p-2 rounded text-xl">☀️</div>
+                                        <div>
+                                            <h4 class="font-bold text-amber-400">AM: Espresso Bar (7am - 2pm)</h4>
+                                            <p class="text-sm text-stone-400">High Margin Coffee, Grab-and-Go Pastries. Targets commuters & WFH crowd.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="bg-stone-700 p-2 rounded text-xl">🌙</div>
+                                        <div>
+                                            <h4 class="font-bold text-indigo-400">PM: Dessert Lounge (2pm - 10pm)</h4>
+                                            <p class="text-sm text-stone-400">High Ticket Bubble Tea & Plated Desserts. Targets social groups.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-stone-700/50 p-6 rounded-xl border border-stone-600">
+                                <h4 class="font-bold mb-4 text-stone-200">Pivot Feasibility Checks</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex items-center gap-2">
+                                        <input type="checkbox" class="accent-amber-500 w-4 h-4">
+                                        <span><strong>Power:</strong> 200 Amp Service available? (Crucial for Espresso Machine)</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <input type="checkbox" class="accent-amber-500 w-4 h-4">
+                                        <span><strong>Plumbing:</strong> Drainage for espresso bar sink?</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <input type="checkbox" class="accent-amber-500 w-4 h-4">
+                                        <span><strong>Sourcing:</strong> Local roaster identified?</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <input type="checkbox" class="accent-amber-500 w-4 h-4">
+                                        <span><strong>Staff:</strong> Manager has barista experience?</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Decorative BG -->
+                        <div class="absolute -right-10 -bottom-10 text-9xl opacity-5">☕</div>
+                    </div>
+
                     <!-- The 3 Levers -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Lever 1 -->
@@ -558,6 +610,74 @@
                                             <div class="text-xs text-stone-500">Verify Manager's floor hours.</div>
                                         </div>
                                     </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Tools Section (NEW) -->
+                    <div class="space-y-6 mb-8">
+                        <h3 class="text-xl font-bold text-stone-800">Operational Analysis Tools</h3>
+                        <p class="text-stone-600 text-sm">Use these templates to analyze the data once received.</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Tool 1: Menu Costing -->
+                            <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+                                <div class="bg-stone-50 p-4 border-b border-stone-200 flex justify-between items-center">
+                                    <div class="font-bold text-stone-700">Menu Costing Template</div>
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Target: < 25% COGS</span>
+                                </div>
+                                <div class="p-4 overflow-x-auto">
+                                    <table class="w-full text-xs text-left">
+                                        <thead class="bg-stone-100 text-stone-500">
+                                            <tr>
+                                                <th class="p-2">Ingredient</th>
+                                                <th class="p-2">Cost/Unit</th>
+                                                <th class="p-2">Recipe Amt</th>
+                                                <th class="p-2">Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-stone-100">
+                                            <tr><td>Mango Puree</td><td>$0.19/oz</td><td>3 oz</td><td>$0.56</td></tr>
+                                            <tr><td>Sugar Syrup</td><td>$0.09/oz</td><td>1.5 oz</td><td>$0.14</td></tr>
+                                            <tr><td>Ice</td><td>$0.01/oz</td><td>10 oz</td><td>$0.13</td></tr>
+                                            <tr><td>Cup/Straw</td><td>$0.15/ea</td><td>1 unit</td><td>$0.15</td></tr>
+                                            <tr class="bg-stone-50 font-bold">
+                                                <td colspan="3" class="p-2 text-right">Total Cost</td>
+                                                <td class="p-2">$0.98</td>
+                                            </tr>
+                                            <tr class="bg-emerald-50 font-bold text-emerald-700">
+                                                <td colspan="3" class="p-2 text-right">Margin (Price $7.50)</td>
+                                                <td class="p-2">87%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Tool 2: Labor Optimization -->
+                            <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+                                <div class="bg-stone-50 p-4 border-b border-stone-200 flex justify-between items-center">
+                                    <div class="font-bold text-stone-700">Labor Optimization Tool</div>
+                                    <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Target: < 30% Labor</span>
+                                </div>
+                                <div class="p-4 overflow-x-auto">
+                                    <table class="w-full text-xs text-left">
+                                        <thead class="bg-stone-100 text-stone-500">
+                                            <tr>
+                                                <th class="p-2">Time</th>
+                                                <th class="p-2">Sales</th>
+                                                <th class="p-2">Labor Cost</th>
+                                                <th class="p-2">Ratio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-stone-100">
+                                            <tr><td>11am-12pm</td><td>$45.00</td><td>$34.80</td><td class="text-rose-600 font-bold">77% 🔴</td></tr>
+                                            <tr><td>12pm-1pm</td><td>$120.00</td><td>$34.80</td><td class="text-emerald-600 font-bold">29% 🟢</td></tr>
+                                            <tr><td>1pm-2pm</td><td>$85.00</td><td>$34.80</td><td class="text-amber-600 font-bold">41% 🟡</td></tr>
+                                            <tr><td>2pm-3pm</td><td>$30.00</td><td>$34.80</td><td class="text-rose-600 font-bold">116% 🔴</td></tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
